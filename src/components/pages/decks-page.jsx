@@ -1,20 +1,8 @@
-import { useState, useEffect } from 'react';
-import { db } from '../../firebase/config';
-import { collection, getDocs } from 'firebase/firestore';
+import { Link } from 'react-router-dom';
+import { useCollection } from '../../hooks/useCollection';
 
 const DecksPage = () => {
-  const [decks, setDecks] = useState(null);
-
-  useEffect(() => {
-    const ref = collection(db, 'decks');
-    getDocs(ref).then((snapshot) => {
-      let results = [];
-      snapshot.docs.forEach((doc) => {
-        results.push({ id: doc.id, ...doc.data() });
-      });
-      setDecks(results);
-    });
-  }, []);
+  const { documents: decks } = useCollection('decks');
 
   return (
     <div className='bg-white'>
@@ -29,7 +17,11 @@ const DecksPage = () => {
         <div className='grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8'>
           {decks?.length &&
             decks.map((deck) => (
-              <a key={deck.id} href={deck.href} className='group'>
+              <Link
+                key={deck.id}
+                to={`/decks/${deck.id}/${deck.name.split(' ')[0]}`}
+                className='group'
+              >
                 <div className='w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8'>
                   <img
                     src={deck.imageSrc}
@@ -37,13 +29,13 @@ const DecksPage = () => {
                     className='w-full h-full object-center object-cover group-hover:opacity-75'
                   />
                 </div>
-                <h3 className='mt-4 text-sm text-gray-700 capitalize'>
+                <h3 className='mt-4 text-sm text-gray-700 text-center capitalize'>
                   {deck.name}
                 </h3>
-                <p className='mt-1 text-lg font-medium text-gray-900'>
+                <p className='mt-1 text-lg font-medium text-gray-900 text-center'>
                   ${deck.price}
                 </p>
-              </a>
+              </Link>
             ))}
         </div>
       </div>

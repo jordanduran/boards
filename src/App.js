@@ -4,6 +4,7 @@ import LandingPage from './components/pages/landing-page';
 import SignUpPage from './components/pages/sign-up-page';
 import SignInPage from './components/pages/sign-in-page';
 import DecksPage from './components/pages/decks-page';
+import DeckProductPage from './components/pages/deck-product-page';
 import TrucksPage from './components/pages/trucks-page';
 import WheelsPage from './components/pages/wheels-page';
 import CompleteSkateboardsPage from './components/pages/complete-skateboards-page';
@@ -21,6 +22,7 @@ const App = () => {
         <Route path='/sign-up' element={<SignUpPage />} />
         <Route path='/sign-in' element={<SignInPage />} />
         <Route path='/decks' element={<DecksPage />} />
+        <Route path='/decks/:id/:name' element={<DeckProductPage />} />
         <Route path='/trucks' element={<TrucksPage />} />
         <Route path='/wheels' element={<WheelsPage />} />
         <Route path='/new-arrivals' element={<NewArrivalsPage />} />
