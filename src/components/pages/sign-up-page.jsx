@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { LockClosedIcon } from '@heroicons/react/solid';
 
-const SignUp = () => {
+const SignUpPage = () => {
   return (
     <div className='bg-gray-100'>
       <div className='min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
@@ -96,4 +96,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignUpPage;
