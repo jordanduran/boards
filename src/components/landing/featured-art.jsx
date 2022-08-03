@@ -1,5 +1,6 @@
 const collections = [
   {
+    id: 1,
     name: 'YFOSART',
     description: `Keith Haring Single Skateboard Art Haring Pop Art`,
     imageSrc: 'https://i.ibb.co/5kWQkCt/il-1588x-N-3971370353-b5xo.png',
@@ -7,6 +8,7 @@ const collections = [
     href: '#',
   },
   {
+    id: 2,
     name: 'YFOSART',
     description: 'Andy Warhol Campbells Soup Skateboard Pop Art',
     imageSrc: 'https://i.ibb.co/XLMsYXZ/il-1588x-N-3923888052-k5d1.png',
@@ -14,6 +16,7 @@ const collections = [
     href: '#',
   },
   {
+    id: 3,
     name: 'YFOSART',
     description: 'Keith Haring The Blueprint drawings 6 1990 Skateboard Art',
     imageSrc: 'https://i.ibb.co/86Y4b7F/il-1588x-N-3971556963-ldaq.png',
@@ -36,7 +39,7 @@ const FeaturedArt = () => {
 
           <div className='mt-6 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-6'>
             {collections.map((collection) => (
-              <div key={collection.name} className='group relative'>
+              <div key={collection.id} className='group relative'>
                 <div className='relative w-full h-80 bg-white rounded-lg overflow-hidden group-hover:opacity-75 sm:aspect-w-2 sm:aspect-h-1 sm:h-64 lg:aspect-w-1 lg:aspect-h-1'>
                   <img
                     src={collection.imageSrc}

@@ -58,7 +58,7 @@ const products = [
     imageAlt: 'Skateboard with abyss on the design.',
   },
   {
-    id: 4,
+    id: 8,
     name: 'BlueBell Deck',
     href: '#',
     price: '$50',

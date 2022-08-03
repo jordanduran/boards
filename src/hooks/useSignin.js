@@ -25,6 +25,7 @@ export const useSignin = () => {
       .then((response) => {
         console.log('User successfully signed in!', response.user);
         setSignedInUser(response.user);
+        sessionStorage.setItem('user', JSON.stringify(response.user));
         navigate('/');
       })
       .catch((error) => {

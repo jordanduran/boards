@@ -12,10 +12,11 @@ export const useSignout = () => {
       .then(() => {
         setSignedInUser(null);
         console.log('User successfully signed out!');
+        sessionStorage.removeItem('user');
         navigate('/');
       })
       .catch((error) => {
-        console.log(error.message);
+        console.error(error.message);
       });
   };
 
