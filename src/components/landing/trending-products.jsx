@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const trendingProducts = [
   {
     id: 1,
@@ -20,7 +22,7 @@ const trendingProducts = [
     price: '$50',
     href: '#',
     imageSrc: 'https://i.ibb.co/CtJMzW1/SILVAS-DECK-GREY-1408x1408.png',
-    imageAlt: 'Skateboard with lips',
+    imageAlt: 'Skateboard with face on the design',
     availableColors: [
       { name: 'Black', colorBg: '#111827' },
       { name: 'Brass', colorBg: '#FDE68A' },
@@ -68,12 +70,12 @@ const TrendingProducts = () => {
           >
             Trending Products
           </h2>
-          <a
-            href='#'
+          <Link
+            to='/decks'
             className='hidden sm:block text-sm font-semibold text-amber-600 hover:text-amber-500'
           >
             View more<span aria-hidden='true'> &rarr;</span>
-          </a>
+          </Link>
         </div>
 
         <div className='mt-8 relative'>

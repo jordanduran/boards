@@ -21,7 +21,7 @@ const Hero = () => {
                 </p>
                 <div className='mt-6'>
                   <Link
-                    to='#'
+                    to='/decks'
                     className='inline-block bg-amber-600 border border-transparent py-3 px-6 rounded-md font-medium text-white text-base hover:bg-amber-700'
                   >
                     Shop Skateboards

@@ -9,13 +9,15 @@ import {
   XIcon,
 } from '@heroicons/react/outline';
 
-const currencies = ['USD', 'CAD', 'AUD', 'EUR', 'GBP'];
+const currencies = ['USD'];
 const navigation = {
   pages: [
-    { name: 'Decks', href: '#' },
-    { name: 'Trucks', href: '#' },
-    { name: 'Wheels', href: '#' },
-    { name: 'Complete Skateboards', href: '#' },
+    { name: 'Decks', href: '/decks' },
+    { name: 'Trucks', href: '/trucks' },
+    { name: 'Wheels', href: '/wheels' },
+    { name: 'Complete Skateboards', href: '/complete-skateboards' },
+    { name: 'Wall Art', href: '/wall-art' },
+    { name: 'New Arrivals', href: '/new-arrivals' },
   ],
 };
 
@@ -66,12 +68,12 @@ const Navbar = () => {
                 <div className='border-t border-gray-200 py-6 px-4 space-y-6'>
                   {navigation.pages.map((page) => (
                     <div key={page.name} className='flow-root'>
-                      <a
-                        href={page.href}
+                      <Link
+                        to={page.href}
                         className='-m-2 p-2 block font-medium text-gray-900'
                       >
                         {page.name}
-                      </a>
+                      </Link>
                     </div>
                   ))}
                 </div>
