@@ -1,11 +1,14 @@
-import { Link } from 'react-router-dom';
 import { Fragment, useState } from 'react';
+import { useStoreState } from 'easy-peasy';
+import { Link } from 'react-router-dom';
+import { useSignout } from '../../hooks/useSignout';
 import { Dialog, Popover, Transition } from '@headlessui/react';
 import {
   MenuIcon,
   SearchIcon,
   ShoppingCartIcon,
   UserIcon,
+  LogoutIcon,
   XIcon,
 } from '@heroicons/react/outline';
 
@@ -23,6 +26,8 @@ const navigation = {
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const user = useStoreState((state) => state.user);
+  const { signout } = useSignout();
 
   return (
     <div className='bg-white'>
@@ -284,6 +289,20 @@ const Navbar = () => {
                               aria-hidden='true'
                             />
                           </Link>
+                        </div>
+
+                        <div className='flex'>
+                          <button
+                            title='Sign out'
+                            className='-m-2 p-2 text-gray-400 hover:text-gray-500'
+                            onClick={signout}
+                          >
+                            <span className='sr-only'>Sign out</span>
+                            <LogoutIcon
+                              className='w-6 h-6'
+                              aria-hidden='true'
+                            />
+                          </button>
                         </div>
 
                         <div className='flex'>

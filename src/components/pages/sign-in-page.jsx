@@ -1,9 +1,22 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { LockClosedIcon } from '@heroicons/react/solid';
+import { useSignin } from '../../hooks/useSignin';
+import ErrorAlert from '../layout/alerts/error-alert';
 
 const SignInPage = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { error, signin } = useSignin();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    signin(email, password);
+  };
+
   return (
     <div className='bg-gray-100'>
+    <ErrorAlert error={error} />
       <div className='min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
         <div className='max-w-md w-full space-y-8'>
           <div>
@@ -16,7 +29,12 @@ const SignInPage = () => {
               Sign into your account
             </h2>
           </div>
-          <form className='mt-8 space-y-6' action='#' method='POST'>
+          <form
+            className='mt-8 space-y-6'
+            action='#'
+            method='POST'
+            onSubmit={handleSubmit}
+          >
             <input type='hidden' name='remember' defaultValue='true' />
             <div className='rounded-md shadow-sm -space-y-px'>
               <div>
@@ -31,6 +49,7 @@ const SignInPage = () => {
                   required
                   className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-amber-500 focus:border-amber-500 focus:z-10 sm:text-sm'
                   placeholder='Email address'
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div>
@@ -45,6 +64,7 @@ const SignInPage = () => {
                   required
                   className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-amber-500 focus:border-amber-500 focus:z-10 sm:text-sm'
                   placeholder='Password'
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
             </div>

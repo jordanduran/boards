@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { CheckCircleIcon, XIcon } from '@heroicons/react/solid';
+import { ExclamationCircleIcon, XIcon } from '@heroicons/react/solid';
 
 const ErrorAlert = ({ error }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +17,7 @@ const ErrorAlert = ({ error }) => {
       <div className='rounded-md bg-red-50 p-4'>
         <div className='flex'>
           <div className='flex-shrink-0'>
-            <CheckCircleIcon
+            <ExclamationCircleIcon
               className='h-5 w-5 text-red-400'
               aria-hidden='true'
             />
