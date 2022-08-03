@@ -84,22 +84,35 @@ const Navbar = () => {
                 </div>
 
                 <div className='border-t border-gray-200 py-6 px-4 space-y-6'>
-                  <div className='flow-root'>
-                    <Link
-                      to='/sign-up'
-                      className='-m-2 p-2 block font-medium text-gray-900'
-                    >
-                      Create an account
-                    </Link>
-                  </div>
-                  <div className='flow-root'>
-                    <Link
-                      to='/sign-in'
-                      className='-m-2 p-2 block font-medium text-gray-900'
-                    >
-                      Sign in
-                    </Link>
-                  </div>
+                  {!user && (
+                    <div className='flow-root'>
+                      <Link
+                        to='/sign-up'
+                        className='-m-2 p-2 block font-medium text-gray-900'
+                      >
+                        Create an account
+                      </Link>
+                    </div>
+                  )}
+                  {!user ? (
+                    <div className='flow-root'>
+                      <Link
+                        to='/sign-in'
+                        className='-m-2 p-2 block font-medium text-gray-900'
+                      >
+                        Sign in
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className='flow-root'>
+                      <button
+                        className='-m-2 p-2 block font-medium text-gray-900'
+                        onClick={signout}
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 <div className='border-t border-gray-200 py-6 px-4 space-y-6'>
@@ -193,19 +206,34 @@ const Navbar = () => {
               </p>
 
               <div className='hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6'>
-                <Link
-                  to='/sign-up'
-                  className='text-sm font-medium text-white hover:text-gray-100'
-                >
-                  Create an account
-                </Link>
-                <span className='h-6 w-px bg-white' aria-hidden='true' />
-                <Link
-                  to='/sign-in'
-                  className='text-sm font-medium text-white hover:text-gray-100'
-                >
-                  Sign in
-                </Link>
+                {!user && (
+                  <>
+                    <Link
+                      to='/sign-up'
+                      className='text-sm font-medium text-white hover:text-gray-100'
+                    >
+                      Create an account
+                    </Link>
+                    <span className='h-6 w-px bg-white' aria-hidden='true' />
+                  </>
+                )}
+                {!user ? (
+                  <Link
+                    to='/sign-in'
+                    className='text-sm font-medium text-white hover:text-gray-100'
+                  >
+                    Sign in
+                  </Link>
+                ) : (
+                  <>
+                    <button
+                      className='text-sm font-medium text-white hover:text-gray-100'
+                      onClick={signout}
+                    >
+                      Sign Out
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -230,7 +258,7 @@ const Navbar = () => {
                   <div className='hidden h-full lg:flex'>
                     {/* Mega menus */}
                     <Popover.Group className='ml-8 z-50'>
-                      <div className='h-full flex justify-center space-x-8'>
+                      <div className='h-full flex justify-center space-x-6'>
                         {navigation.pages.map((page) => (
                           <Link
                             key={page.name}
@@ -291,29 +319,36 @@ const Navbar = () => {
                           </Link>
                         </div>
 
-                        <div className='flex'>
-                          <button
-                            title='Sign out'
-                            className='-m-2 p-2 text-gray-400 hover:text-gray-500'
-                            onClick={signout}
-                          >
-                            <span className='sr-only'>Sign out</span>
-                            <LogoutIcon
-                              className='w-6 h-6'
-                              aria-hidden='true'
-                            />
-                          </button>
-                        </div>
+                        {user && (
+                          <>
+                            <div className='flex'>
+                              <button
+                                title='Sign out'
+                                className='-m-2 p-2 text-gray-400 hover:text-gray-500'
+                                onClick={signout}
+                              >
+                                <span className='sr-only'>Sign out</span>
+                                <LogoutIcon
+                                  className='w-6 h-6'
+                                  aria-hidden='true'
+                                />
+                              </button>
+                            </div>
 
-                        <div className='flex'>
-                          <Link
-                            to='#'
-                            className='-m-2 p-2 text-gray-400 hover:text-gray-500'
-                          >
-                            <span className='sr-only'>Account</span>
-                            <UserIcon className='w-6 h-6' aria-hidden='true' />
-                          </Link>
-                        </div>
+                            <div className='flex'>
+                              <Link
+                                to='#'
+                                className='-m-2 p-2 text-gray-400 hover:text-gray-500'
+                              >
+                                <span className='sr-only'>Account</span>
+                                <UserIcon
+                                  className='w-6 h-6'
+                                  aria-hidden='true'
+                                />
+                              </Link>
+                            </div>
+                          </>
+                        )}
                       </div>
 
                       <span

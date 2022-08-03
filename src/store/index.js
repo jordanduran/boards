@@ -1,11 +1,10 @@
-import { createStore } from 'easy-peasy';
+import { createStore, action } from 'easy-peasy';
 
 const store = createStore({
-  user: {
-    name: 'Jordan',
-    email: 'jordan@gmail.com',
-    admin: true,
-  },
+  setSignedInUser: action((state, payload) => {
+    state.user = payload;
+  }),
+  user: null,
 });
 
 export default store;

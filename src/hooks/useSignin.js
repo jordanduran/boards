@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
+import { useStoreActions } from 'easy-peasy';
 import { auth } from '../firebase/config';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 export const useSignin = () => {
   const [error, setError] = useState(null);
+  const setSignedInUser = useStoreActions((actions) => actions.setSignedInUser);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -20,6 +24,8 @@ export const useSignin = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((response) => {
         console.log('User successfully signed in!', response.user);
+        setSignedInUser(response.user);
+        navigate('/');
       })
       .catch((error) => {
         switch (error.message) {
