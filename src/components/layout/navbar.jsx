@@ -27,6 +27,7 @@ const navigation = {
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const user = useStoreState((state) => state.user);
+  const cartCount = useStoreState((state) => state.cartCount);
   const { signout } = useSignout();
 
   return (
@@ -366,7 +367,7 @@ const Navbar = () => {
                             aria-hidden='true'
                           />
                           <span className='ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800'>
-                            0
+                            {cartCount}
                           </span>
                           <span className='sr-only'>
                             items in cart, view bag
