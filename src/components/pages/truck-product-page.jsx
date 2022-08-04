@@ -9,20 +9,20 @@ import SuccessAlert from '../layout/alerts/success-alert';
 
 const breadcrumbs = [
   { id: 1, name: 'Home', href: '/' },
-  { id: 2, name: 'Decks', href: '/decks' },
+  { id: 2, name: 'Trucks', href: '/trucks' },
 ];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-const DeckProductPage = () => {
-  const [deck, setDeck] = useState(null);
+const TruckProductPage = () => {
+  const [truck, setTruck] = useState(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [selectedSize, setSelectedSize] = useState(null);
 
-  const { id: deckId } = useParams();
+  const { id: truckId } = useParams();
 
   const cart = useStoreState((state) => state.cart);
 
@@ -32,17 +32,17 @@ const DeckProductPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    deck.size = selectedSize;
-    addToCart(deck);
+    truck.size = selectedSize;
+    addToCart(truck);
     addToCartCount();
     setFormSubmitted(true);
   };
 
   useEffect(() => {
-    if (deck?.sizes?.length) {
-      setSelectedSize(deck?.sizes[0]);
+    if (truck?.sizes?.length) {
+      setSelectedSize(truck?.sizes[0]);
     }
-  }, [deck]);
+  }, [truck]);
 
   useEffect(() => {
     if (formSubmitted) {
@@ -60,12 +60,12 @@ const DeckProductPage = () => {
   }, [formSubmitted, cart]);
 
   useEffect(() => {
-    const docRef = doc(db, 'decks', deckId);
-    const getDeck = async () => {
+    const docRef = doc(db, 'trucks', truckId);
+    const getTruck = async () => {
       try {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-          setDeck(docSnap.data());
+          setTruck(docSnap.data());
         } else {
           console.error('Document does not exist');
         }
@@ -73,10 +73,10 @@ const DeckProductPage = () => {
         console.error(error);
       }
     };
-    getDeck();
-  }, [deckId]);
+    getTruck();
+  }, [truckId]);
 
-  if (deck) {
+  if (truck) {
     return (
       <div className='bg-white'>
         {showAlert && (
@@ -116,7 +116,7 @@ const DeckProductPage = () => {
 
             <div className='mt-4'>
               <h1 className='text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl capitalize'>
-                {deck.name}
+                {truck.name}
               </h1>
             </div>
             <section aria-labelledby='information-heading' className='mt-4'>
@@ -126,12 +126,12 @@ const DeckProductPage = () => {
 
               <div className='flex items-center'>
                 <p className='text-lg text-gray-900 sm:text-xl'>
-                  ${deck.price}
+                  ${truck.price}
                 </p>
               </div>
 
               <div className='mt-4 space-y-6'>
-                <p className='text-base text-gray-500'>{deck.description}</p>
+                <p className='text-base text-gray-500'>{truck.description}</p>
               </div>
 
               <div className='mt-6 flex items-center'>
@@ -150,8 +150,8 @@ const DeckProductPage = () => {
           <div className='mt-10 lg:mt-0 lg:col-start-2 lg:row-span-2 lg:self-center'>
             <div className='aspect-w-1 aspect-h-1 rounded-lg overflow-hidden'>
               <img
-                src={deck.imageSrc}
-                alt={deck.name}
+                src={truck.imageSrc}
+                alt={truck.name}
                 className='w-full h-full object-center object-cover'
               />
             </div>
@@ -172,7 +172,7 @@ const DeckProductPage = () => {
                       Size
                     </RadioGroup.Label>
                     <div className='mt-1 grid grid-cols-1 gap-4 sm:grid-cols-2 text-center'>
-                      {deck.sizes.map((size) => (
+                      {truck?.sizes?.map((size) => (
                         <RadioGroup.Option
                           checked={selectedSize}
                           as='div'
@@ -240,4 +240,4 @@ const DeckProductPage = () => {
   }
 };
 
-export default DeckProductPage;
+export default TruckProductPage;
