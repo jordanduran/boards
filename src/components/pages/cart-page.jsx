@@ -1,15 +1,21 @@
 import { Link } from 'react-router-dom';
 import { useStoreState, useStoreActions } from 'easy-peasy';
 import { CheckIcon, ClockIcon } from '@heroicons/react/solid';
+import { useNavigate } from 'react-router-dom';
 
 const CartPage = () => {
   const cart = useStoreState((state) => state.cart);
-  const deleteFromCart = useStoreActions((state) => state.deleteFromCart);
-
   const cartTotal = cart.reduce(
     (total, product) => Number(product.price) + total,
     0
   );
+  const deleteFromCart = useStoreActions((state) => state.deleteFromCart);
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate('/checkout');
+  };
 
   if (cart?.length) {
     return (
@@ -19,7 +25,7 @@ const CartPage = () => {
             Shopping Cart
           </h1>
 
-          <form className='mt-12'>
+          <form className='mt-12' onSubmit={handleSubmit}>
             <section aria-labelledby='cart-heading'>
               <h2 id='cart-heading' className='sr-only'>
                 Items in your shopping cart
@@ -105,7 +111,10 @@ const CartPage = () => {
                       Subtotal
                     </dt>
                     <dd className='ml-4 text-base font-medium text-gray-900'>
-                      ${cartTotal}
+                      $
+                      {cartTotal
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                     </dd>
                   </div>
                 </dl>
@@ -127,7 +136,7 @@ const CartPage = () => {
                 <p>
                   or{' '}
                   <Link
-                    to='#'
+                    to='/decks'
                     className='text-amber-600 font-medium hover:text-amber-500'
                   >
                     Continue Shopping<span aria-hidden='true'> &rarr;</span>

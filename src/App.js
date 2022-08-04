@@ -1,7 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/layout/navbar';
-import CartPage from './components/pages/cart-page';
 import LandingPage from './components/pages/landing-page';
+import CartPage from './components/pages/cart-page';
+import CheckoutPage from './components/pages/checkout-page';
 import SignUpPage from './components/pages/sign-up-page';
 import SignInPage from './components/pages/sign-in-page';
 import DecksPage from './components/pages/decks-page';
@@ -20,8 +21,9 @@ const App = () => {
     <>
       <Navbar />
       <Routes>
-        <Route path='/cart' element={<CartPage />} />
         <Route path='/' element={<LandingPage />} />
+        <Route path='/cart' element={<CartPage />} />
+        <Route path='/checkout' element={<CheckoutPage />} />
         <Route path='/sign-up' element={<SignUpPage />} />
         <Route path='/sign-in' element={<SignInPage />} />
         <Route path='/decks' element={<DecksPage />} />
