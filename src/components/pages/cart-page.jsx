@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useStoreState, useStoreActions } from 'easy-peasy';
 import { CheckIcon, ClockIcon } from '@heroicons/react/solid';
 
@@ -9,7 +10,6 @@ const CartPage = () => {
     (total, product) => Number(product.price) + total,
     0
   );
-  console.log('cart->', cart);
 
   if (cart?.length) {
     return (
@@ -25,77 +25,71 @@ const CartPage = () => {
                 Items in your shopping cart
               </h2>
 
-              <ul
-                role='list'
-                className='border-t border-b border-gray-200 divide-y divide-gray-200'
-              >
-                {cart.sort().map((product, index) => (
-                  <li key={index} className='flex py-6'>
-                    <div className='flex-shrink-0'>
-                      <img
-                        src={product.imageSrc}
-                        alt={product.name}
-                        className='w-24 h-24 rounded-md object-center object-cover sm:w-32 sm:h-32'
-                      />
-                    </div>
-                    <p>{index}</p>
-                    <div className='ml-4 flex-1 flex flex-col sm:ml-6'>
-                      <div>
-                        <div className='flex justify-between'>
-                          <h4 className='text-sm'>
-                            <a
-                              href={product.href}
-                              className='font-medium text-gray-700 hover:text-gray-800 capitalize'
-                            >
-                              {product.name}
-                            </a>
-                          </h4>
-                          <p className='ml-4 text-sm font-medium text-gray-900'>
-                            ${product.price}
-                          </p>
-                        </div>
-                        <p className='mt-1 text-sm text-gray-500'>
-                          {product.color}
-                        </p>
-                        <p className='mt-1 text-sm text-gray-500'>
-                          {product.size}
-                        </p>
-                      </div>
-
-                      <div className='mt-4 flex-1 flex items-end justify-between'>
-                        <p className='flex items-center text-sm text-gray-700 space-x-2'>
-                          {Number(product.inStock) > 0 ? (
-                            <CheckIcon
-                              className='flex-shrink-0 h-5 w-5 text-green-500'
-                              aria-hidden='true'
-                            />
-                          ) : (
-                            <ClockIcon
-                              className='flex-shrink-0 h-5 w-5 text-gray-300'
-                              aria-hidden='true'
-                            />
-                          )}
-
-                          <span>
-                            {product.inStock > 0
-                              ? 'In stock'
-                              : `Will ship in 5-7 business days.`}
-                          </span>
-                        </p>
-                        <div className='ml-4'>
-                          <button
-                            type='button'
-                            className='text-sm font-medium text-amber-600 hover:text-amber-500'
-                            onClick={() => deleteFromCart(index)}
+              {cart.map((product, index) => (
+                <li key={index} className='flex py-6'>
+                  <div className='flex-shrink-0'>
+                    <img
+                      src={product.imageSrc}
+                      alt={product.name}
+                      className='w-24 h-24 rounded-md object-center object-cover sm:w-32 sm:h-32'
+                    />
+                  </div>
+                  <div className='ml-4 flex-1 flex flex-col sm:ml-6'>
+                    <div>
+                      <div className='flex justify-between'>
+                        <h4 className='text-sm'>
+                          <a
+                            href={product.href}
+                            className='font-medium text-gray-700 hover:text-gray-800 capitalize'
                           >
-                            <span>Remove</span>
-                          </button>
-                        </div>
+                            {product.name}
+                          </a>
+                        </h4>
+                        <p className='ml-4 text-sm font-medium text-gray-900'>
+                          ${product.price}
+                        </p>
+                      </div>
+                      <p className='mt-1 text-sm text-gray-500'>
+                        {product.color}
+                      </p>
+                      <p className='mt-1 text-sm text-gray-500'>
+                        {product.size}
+                      </p>
+                    </div>
+
+                    <div className='mt-4 flex-1 flex items-end justify-between'>
+                      <p className='flex items-center text-sm text-gray-700 space-x-2'>
+                        {Number(product.inStock) > 0 ? (
+                          <CheckIcon
+                            className='flex-shrink-0 h-5 w-5 text-green-500'
+                            aria-hidden='true'
+                          />
+                        ) : (
+                          <ClockIcon
+                            className='flex-shrink-0 h-5 w-5 text-gray-300'
+                            aria-hidden='true'
+                          />
+                        )}
+
+                        <span>
+                          {product.inStock > 0
+                            ? 'In stock'
+                            : `Will ship in 5-7 business days.`}
+                        </span>
+                      </p>
+                      <div className='ml-4'>
+                        <button
+                          type='button'
+                          className='text-sm font-medium text-amber-600 hover:text-amber-500'
+                          onClick={() => deleteFromCart(product.idx)}
+                        >
+                          <span>Remove</span>
+                        </button>
                       </div>
                     </div>
-                  </li>
-                ))}
-              </ul>
+                  </div>
+                </li>
+              ))}
             </section>
 
             {/* Order summary */}
@@ -132,12 +126,12 @@ const CartPage = () => {
               <div className='mt-6 text-sm text-center'>
                 <p>
                   or{' '}
-                  <a
-                    href='#'
+                  <Link
+                    to='#'
                     className='text-amber-600 font-medium hover:text-amber-500'
                   >
                     Continue Shopping<span aria-hidden='true'> &rarr;</span>
-                  </a>
+                  </Link>
                 </p>
               </div>
             </section>
@@ -146,7 +140,16 @@ const CartPage = () => {
       </div>
     );
   } else {
-    return 'Your cart is currently empty.';
+    return (
+      <div className='bg-white'>
+        <div className='max-w-7xl mx-auto text-center py-12 px-4 sm:px-6 lg:py-16 lg:px-8'>
+          <h2 className='text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl'>
+            <span className='block'>Your cart</span>
+            <span className='block'>is currently empty.</span>
+          </h2>
+        </div>
+      </div>
+    );
   }
 };
 

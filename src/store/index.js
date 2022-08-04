@@ -10,6 +10,14 @@ const store = createStore({
   }),
   addToCart: action((state, payload) => {
     state.cart = [...state.cart, payload];
+    const updatedCart = state.cart.map((product, index) => {
+      return { ...product, idx: index };
+    });
+    state.cart = updatedCart;
+  }),
+  deleteFromCart: action((state, payload) => {
+    const updatedCart = state.cart.filter((product) => product.idx !== payload);
+    state.cart = updatedCart;
   }),
   addToCartCount: action((state) => {
     state.cartCount = state.cartCount + 1;
