@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useStoreState, useStoreActions } from 'easy-peasy';
 import { Link, useParams } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 import { CheckIcon, QuestionMarkCircleIcon } from '@heroicons/react/solid';
 import { RadioGroup } from '@headlessui/react';
 import { db } from '../../firebase/config';
@@ -33,7 +32,7 @@ const TruckProductPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    truck.id = uuidv4();
+    truck.id = truckId;
     truck.size = selectedSize;
     addToCart(truck);
     addToCartCount();
