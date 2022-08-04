@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useStoreState, useStoreActions } from 'easy-peasy';
+import { loadStripe } from '@stripe/stripe-js';
 import { CheckIcon, ClockIcon } from '@heroicons/react/solid';
-import { useNavigate } from 'react-router-dom';
 
 const CartPage = () => {
   const cart = useStoreState((state) => state.cart);
@@ -10,11 +10,37 @@ const CartPage = () => {
     0
   );
   const deleteFromCart = useStoreActions((state) => state.deleteFromCart);
-  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate('/checkout');
+  };
+
+  let stripePromise;
+
+  const getStripe = () => {
+    if (!stripePromise) {
+      stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
+    }
+    return stripePromise;
+  };
+
+  const item = {
+    price: 'price_1LTB0OHYHD4D2ZXBT9NyC1NT',
+    quantity: 2,
+  };
+
+  const checkoutOptions = {
+    lineItems: [item],
+    mode: 'payment',
+    successUrl: `${window.location.origin}/success`,
+    cancelUrl: `${window.location.origin}/cancel`,
+  };
+
+  const redirectToCheckout = async () => {
+    console.log('redirectToCheckout');
+
+    const stripe = await getStripe();
+    const { error } = await stripe.redirectToCheckout(checkoutOptions);
   };
 
   if (cart?.length) {
@@ -125,6 +151,7 @@ const CartPage = () => {
 
               <div className='mt-10'>
                 <button
+                  onClick={redirectToCheckout}
                   type='submit'
                   className='w-full bg-amber-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-amber-500'
                 >

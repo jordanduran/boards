@@ -1,3 +1,4 @@
+import '@stripe/react-stripe-js';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/layout/navbar';
 import LandingPage from './components/pages/landing-page';
@@ -13,6 +14,8 @@ import WheelsPage from './components/pages/wheels-page';
 import CompleteSkateboardsPage from './components/pages/complete-skateboards-page';
 import NewArrivalsPage from './components/pages/new-arrivals-page';
 import WallArtPage from './components/pages/wall-art-page';
+import CheckoutSuccessfulPage from './components/pages/checkout-successful-page';
+import CheckoutCancelPage from './components/pages/checkout-cancel-page';
 import Footer from './components/layout/footer';
 import './App.css';
 
@@ -33,6 +36,8 @@ const App = () => {
         <Route path='/wheels' element={<WheelsPage />} />
         <Route path='/new-arrivals' element={<NewArrivalsPage />} />
         <Route path='/wall-art' element={<WallArtPage />} />
+        <Route path='/success' element={<CheckoutSuccessfulPage />} />
+        <Route path='/cancel' element={<CheckoutCancelPage />} />
         <Route
           path='/complete-skateboards'
           element={<CompleteSkateboardsPage />}
