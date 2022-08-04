@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useStoreState, useStoreActions } from 'easy-peasy';
 import { Link, useParams } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 import { CheckIcon, QuestionMarkCircleIcon } from '@heroicons/react/solid';
 import { RadioGroup } from '@headlessui/react';
 import { db } from '../../firebase/config';
@@ -21,6 +22,7 @@ const DeckProductPage = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [selectedSize, setSelectedSize] = useState(null);
+  const [date, setDate] = useState(Date?.now());
 
   const { id: deckId } = useParams();
 
@@ -32,6 +34,7 @@ const DeckProductPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    deck.id = `${uuidv4()}${date}`;
     deck.size = selectedSize;
     addToCart(deck);
     addToCartCount();
@@ -43,6 +46,19 @@ const DeckProductPage = () => {
       setSelectedSize(deck?.sizes[0]);
     }
   }, [deck]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      let newDate = Date?.now();
+      if (newDate !== date) {
+        setDate(newDate);
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [date]);
 
   useEffect(() => {
     if (formSubmitted) {
@@ -75,6 +91,8 @@ const DeckProductPage = () => {
     };
     getDeck();
   }, [deckId]);
+
+  console.log(date);
 
   if (deck) {
     return (

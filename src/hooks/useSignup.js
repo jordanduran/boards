@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
 import { auth } from '../firebase/config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+
 export const useSignup = () => {
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -18,6 +21,7 @@ export const useSignup = () => {
     setError(null);
     createUserWithEmailAndPassword(auth, email, password)
       .then((response) => {
+        navigate('/');
         console.log('User successfully created an account!', response.user);
       })
       .catch((error) => {

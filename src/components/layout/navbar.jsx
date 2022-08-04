@@ -359,7 +359,7 @@ const Navbar = () => {
 
                       <div className='flow-root'>
                         <Link
-                          to='#'
+                          to='/cart'
                           className='group -m-2 p-2 flex items-center'
                         >
                           <ShoppingCartIcon

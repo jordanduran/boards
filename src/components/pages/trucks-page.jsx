@@ -4,8 +4,6 @@ import { useCollection } from '../../hooks/useCollection';
 const TrucksPage = () => {
   const { documents: trucks } = useCollection('trucks');
 
-  console.log(trucks);
-
   return (
     <div className='bg-white'>
       <div className='py-16 text-center'>
