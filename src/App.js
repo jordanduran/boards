@@ -6,6 +6,7 @@ import SignInPage from './components/pages/sign-in-page';
 import DecksPage from './components/pages/decks-page';
 import DeckProductPage from './components/pages/deck-product-page';
 import TrucksPage from './components/pages/trucks-page';
+import TruckProductPage from './components/pages/truck-product-page';
 import WheelsPage from './components/pages/wheels-page';
 import CompleteSkateboardsPage from './components/pages/complete-skateboards-page';
 import NewArrivalsPage from './components/pages/new-arrivals-page';
@@ -24,6 +25,7 @@ const App = () => {
         <Route path='/decks' element={<DecksPage />} />
         <Route path='/decks/:id/:name' element={<DeckProductPage />} />
         <Route path='/trucks' element={<TrucksPage />} />
+        <Route path='/trucks/:id/:name' element={<TruckProductPage />} />
         <Route path='/wheels' element={<WheelsPage />} />
         <Route path='/new-arrivals' element={<NewArrivalsPage />} />
         <Route path='/wall-art' element={<WallArtPage />} />
