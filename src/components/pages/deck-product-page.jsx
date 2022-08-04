@@ -92,8 +92,6 @@ const DeckProductPage = () => {
     getDeck();
   }, [deckId]);
 
-  console.log(date);
-
   if (deck) {
     return (
       <div className='bg-white'>
