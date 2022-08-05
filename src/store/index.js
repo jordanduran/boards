@@ -2,7 +2,9 @@ import { createStore, action, computed } from 'easy-peasy';
 
 const store = createStore({
   user:
-    'user' in sessionStorage ? JSON.parse(sessionStorage.getItem('user')) : {},
+    'user' in sessionStorage
+      ? JSON.parse(sessionStorage.getItem('user'))
+      : null,
   cart:
     'cart' in sessionStorage ? JSON.parse(sessionStorage.getItem('cart')) : [],
   cartCount: computed((state) => state.cart.length),
@@ -19,14 +21,18 @@ const store = createStore({
     state.cart = updatedCart;
   }),
 
+  addToCartCount: action((state) => {
+    state.cartCount = state.cartCount + 1;
+  }),
+
   deleteFromCart: action((state, payload) => {
     const updatedCart = state.cart.filter((product) => product.idx !== payload);
     sessionStorage.setItem('cart', JSON.stringify(updatedCart));
     state.cart = updatedCart;
   }),
 
-  addToCartCount: action((state) => {
-    state.cartCount = state.cartCount + 1;
+  clearCart: action((state) => {
+    state.cart = [];
   }),
 });
 

@@ -21,6 +21,7 @@ const DeckProductPage = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [selectedSize, setSelectedSize] = useState(null);
+  const [quantity, setQuantity] = useState(1);
 
   const { id: deckId } = useParams();
 
@@ -32,8 +33,11 @@ const DeckProductPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    setQuantity(quantity + 1);
+
     deck.id = deckId;
     deck.size = selectedSize;
+    deck.quantity = quantity;
     addToCart(deck);
     addToCartCount();
     setFormSubmitted(true);
@@ -58,7 +62,9 @@ const DeckProductPage = () => {
         clearTimeout(timer);
       };
     }
-  }, [formSubmitted, cart]);
+  }, [formSubmitted, cart, quantity]);
+
+  console.log(cart);
 
   useEffect(() => {
     const docRef = doc(db, 'decks', deckId);

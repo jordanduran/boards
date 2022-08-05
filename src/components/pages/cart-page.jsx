@@ -24,9 +24,10 @@ const CartPage = () => {
     return stripePromise;
   };
 
+  // Need to add this price tag from stripe in firestore to use for checkout. Add actual price to display as seperate key.
   const item = {
     price: 'price_1LTB0OHYHD4D2ZXBT9NyC1NT',
-    quantity: 2,
+    quantity: 1,
   };
 
   const checkoutOptions = {

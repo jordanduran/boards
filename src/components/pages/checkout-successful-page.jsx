@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import { useStoreActions } from 'easy-peasy';
+
 const products = [
   {
     id: 1,
@@ -12,7 +15,13 @@ const products = [
   },
 ];
 
-export default function CheckoutSuccessfulPage() {
+const CheckoutSuccessfulPage = () => {
+  const clearCart = useStoreActions((state) => state.clearCart);
+
+  useEffect(() => {
+    clearCart();
+  }, [clearCart]);
+
   return (
     <div className='bg-white'>
       <div className='max-w-3xl mx-auto px-4 py-16 sm:px-6 sm:py-24 lg:px-8'>
@@ -151,4 +160,6 @@ export default function CheckoutSuccessfulPage() {
       </div>
     </div>
   );
-}
+};
+
+export default CheckoutSuccessfulPage;
