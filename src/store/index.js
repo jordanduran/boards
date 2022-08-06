@@ -7,7 +7,9 @@ const store = createStore({
       : null,
   cart:
     'cart' in sessionStorage ? JSON.parse(sessionStorage.getItem('cart')) : [],
-  cartCount: computed((state) => state.cart.length),
+  cartCount: computed((state) =>
+    state.cart.reduce((accum, product) => accum + product.quantity, 0)
+  ),
 
   setSignedInUser: action((state, payload) => {
     state.user = payload;
@@ -17,12 +19,14 @@ const store = createStore({
     const updatedCart = state.cart.map((product, index) => {
       return { ...product, idx: index };
     });
+
     sessionStorage.setItem('cart', JSON.stringify(updatedCart));
     state.cart = updatedCart;
+    state.purchasedProducts = updatedCart;
   }),
 
-  addToCartCount: action((state) => {
-    state.cartCount = state.cartCount + 1;
+  addToCartCount: action((state, payload) => {
+    state.cartCount = state.cartCount + payload;
   }),
 
   deleteFromCart: action((state, payload) => {

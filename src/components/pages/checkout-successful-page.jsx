@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useStoreActions } from 'easy-peasy';
+import { useStoreState, useStoreActions } from 'easy-peasy';
 
 const products = [
   {
@@ -16,6 +16,8 @@ const products = [
 ];
 
 const CheckoutSuccessfulPage = () => {
+  const cart = useStoreState((state) => state.cart);
+
   const clearCart = useStoreActions((state) => state.clearCart);
 
   useEffect(() => {

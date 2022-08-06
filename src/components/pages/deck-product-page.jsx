@@ -33,13 +33,12 @@ const DeckProductPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setQuantity(quantity + 1);
-
     deck.id = deckId;
-    deck.size = selectedSize;
     deck.quantity = quantity;
+    deck.size = selectedSize;
     addToCart(deck);
-    addToCartCount();
+    addToCartCount(quantity);
+    setQuantity(1);
     setFormSubmitted(true);
   };
 
@@ -62,7 +61,7 @@ const DeckProductPage = () => {
         clearTimeout(timer);
       };
     }
-  }, [formSubmitted, cart, quantity]);
+  }, [formSubmitted, cart]);
 
   console.log(cart);
 
@@ -133,7 +132,7 @@ const DeckProductPage = () => {
 
               <div className='flex items-center'>
                 <p className='text-lg text-gray-900 sm:text-xl'>
-                  ${deck.price}
+                  ${deck.displayPrice}
                 </p>
               </div>
 
@@ -217,6 +216,34 @@ const DeckProductPage = () => {
                       ))}
                     </div>
                   </RadioGroup>
+                  {/* Qty selector */}
+
+                  <div className='mb-8 md:mb-0'>
+                    <label
+                      htmlFor='location'
+                      className='block text-sm font-medium text-gray-700'
+                    >
+                      Quantity
+                    </label>
+                    <select
+                      value={quantity}
+                      onChange={(e) => setQuantity(Number(e.target.value))}
+                      id='quantity'
+                      name='quantity'
+                      className='mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm rounded-md'
+                    >
+                      <option value='1'>1</option>
+                      <option value='2'>2</option>
+                      <option value='3'>3</option>
+                      <option value='4'>4</option>
+                      <option value='5'>5</option>
+                      <option value='6'>6</option>
+                      <option value='7'>7</option>
+                      <option value='8'>8</option>
+                      <option value='9'>9</option>
+                      <option value='10'>10</option>
+                    </select>
+                  </div>
                 </div>
                 <div className='mt-4'>
                   <Link

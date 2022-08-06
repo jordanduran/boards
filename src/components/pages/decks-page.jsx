@@ -36,7 +36,7 @@ const DecksPage = () => {
                   {deck.name}
                 </h3>
                 <p className='mt-1 text-lg font-medium text-gray-900 text-center'>
-                  ${deck.price}
+                  ${deck.displayPrice}
                 </p>
               </Link>
             ))}

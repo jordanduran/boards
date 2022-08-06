@@ -1,14 +1,22 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useStoreState, useStoreActions } from 'easy-peasy';
 import { loadStripe } from '@stripe/stripe-js';
 import { CheckIcon, ClockIcon } from '@heroicons/react/solid';
+import ErrorAlert from '../layout/alerts/error-alert';
 
 const CartPage = () => {
+  const [stripeError, setStripeError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const cart = useStoreState((state) => state.cart);
+
   const cartTotal = cart.reduce(
-    (total, product) => Number(product.price) + total,
+    (total, product) =>
+      Number(product.displayPrice) * Number(product.quantity) + total,
     0
   );
+
   const deleteFromCart = useStoreActions((state) => state.deleteFromCart);
 
   const handleSubmit = (e) => {
@@ -24,29 +32,40 @@ const CartPage = () => {
     return stripePromise;
   };
 
-  // Need to add this price tag from stripe in firestore to use for checkout. Add actual price to display as seperate key.
-  const item = {
-    price: 'price_1LTB0OHYHD4D2ZXBT9NyC1NT',
-    quantity: 1,
+  const stripeItems = () => {
+    let finishedCart = [];
+    cart.forEach((product) => {
+      let finalQty = cart
+        .filter((x) => x.price === product.price)
+        .reduce((accum, p) => accum + p.quantity, 0);
+      if (!finishedCart.some((item) => item.price === product.price)) {
+        finishedCart.push({ price: product.price, quantity: finalQty });
+      }
+    });
+    return finishedCart;
   };
 
   const checkoutOptions = {
-    lineItems: [item],
+    lineItems: stripeItems(),
     mode: 'payment',
     successUrl: `${window.location.origin}/success`,
     cancelUrl: `${window.location.origin}/cancel`,
   };
 
   const redirectToCheckout = async () => {
-    console.log('redirectToCheckout');
+    setIsLoading(true);
 
     const stripe = await getStripe();
     const { error } = await stripe.redirectToCheckout(checkoutOptions);
+
+    if (error) setStripeError(error.message);
+    setIsLoading(true);
   };
 
   if (cart?.length) {
     return (
       <div className='bg-white'>
+        <ErrorAlert error={stripeError} />
         <div className='max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-0'>
           <h1 className='text-3xl font-extrabold text-center tracking-tight text-gray-900 sm:text-4xl'>
             Shopping Cart
@@ -79,12 +98,15 @@ const CartPage = () => {
                           </a>
                         </h4>
                         <p className='ml-4 text-sm font-medium text-gray-900'>
-                          ${product.price}
+                          ${product.displayPrice}
                         </p>
                       </div>
-                      <p className='mt-1 text-sm text-gray-500'>
-                        {product.color}
-                      </p>
+                      <div className='flex justify-between'>
+                        <p className='mt-1 text-sm text-gray-700'>Quantity</p>
+                        <p className='mt-1 text-sm text-gray-700'>
+                          {product.quantity}
+                        </p>
+                      </div>
                       <p className='mt-1 text-sm text-gray-500'>
                         {product.size}
                       </p>
@@ -153,8 +175,9 @@ const CartPage = () => {
               <div className='mt-10'>
                 <button
                   onClick={redirectToCheckout}
+                  disabled={isLoading}
                   type='submit'
-                  className='w-full bg-amber-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-amber-500'
+                  className='checkout-button w-full bg-amber-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-amber-500'
                 >
                   Checkout
                 </button>
