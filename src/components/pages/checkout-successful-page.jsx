@@ -4,6 +4,9 @@ import { useStoreState, useStoreActions } from 'easy-peasy';
 const CheckoutSuccessfulPage = () => {
   const cart = useStoreState((state) => state.cart);
   const productsPurchased = useStoreState((state) => state.productsPurchased);
+  const orderShippingInfo = useStoreState((state) => state.orderShippingInfo);
+
+  console.log(orderShippingInfo);
 
   const addProductsPurchased = useStoreActions(
     (state) => state.addProductsPurchased
@@ -99,9 +102,9 @@ const CheckoutSuccessfulPage = () => {
                   </dt>
                   <dd className='mt-2 text-gray-700'>
                     <address className='not-italic'>
-                      <span className='block'>Kristin Watson</span>
-                      <span className='block'>7363 Cynthia Pass</span>
-                      <span className='block'>Toronto, ON N3Y 4H8</span>
+                      <span className='block capitalize'>{`${orderShippingInfo.firstName} ${orderShippingInfo.lastName}`}</span>
+                      <span className='block capitalize'>{`${orderShippingInfo.address} ${orderShippingInfo.apt}`}</span>
+                      <span className='block capitalize'>{`${orderShippingInfo.city} ${orderShippingInfo.postalCode}`}</span>
                     </address>
                   </dd>
                 </div>

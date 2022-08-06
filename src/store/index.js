@@ -7,6 +7,10 @@ const store = createStore({
       : null,
   cart:
     'cart' in sessionStorage ? JSON.parse(sessionStorage.getItem('cart')) : [],
+  orderShippingInfo:
+    'orderShippingInfo' in sessionStorage
+      ? JSON.parse(sessionStorage.getItem('orderShippingInfo'))
+      : [],
   productsPurchased: [],
   cartCount: computed((state) =>
     state.cart.reduce((accum, product) => accum + product.quantity, 0)
@@ -38,6 +42,12 @@ const store = createStore({
 
   clearCart: action((state) => {
     state.cart = [];
+  }),
+
+  addOrderShippingInfo: action((state, payload) => {
+    sessionStorage.removeItem('orderShippingInfo');
+    sessionStorage.setItem('orderShippingInfo', JSON.stringify(payload));
+    state.orderShippingInfo = payload;
   }),
 
   addProductsPurchased: action((state, payload) => {

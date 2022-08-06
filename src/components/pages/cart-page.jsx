@@ -1,14 +1,8 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useStoreState, useStoreActions } from 'easy-peasy';
-import { loadStripe } from '@stripe/stripe-js';
 import { CheckIcon, ClockIcon } from '@heroicons/react/solid';
-import ErrorAlert from '../layout/alerts/error-alert';
 
 const CartPage = () => {
-  const [stripeError, setStripeError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-
   const cart = useStoreState((state) => state.cart);
 
   const cartTotal = cart.reduce(
@@ -19,53 +13,16 @@ const CartPage = () => {
 
   const deleteFromCart = useStoreActions((state) => state.deleteFromCart);
 
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
-  };
-
-  let stripePromise;
-
-  const getStripe = () => {
-    if (!stripePromise) {
-      stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
-    }
-    return stripePromise;
-  };
-
-  const stripeItems = () => {
-    let finishedCart = [];
-    cart.forEach((product) => {
-      let finalQty = cart
-        .filter((x) => x.price === product.price)
-        .reduce((accum, p) => accum + p.quantity, 0);
-      if (!finishedCart.some((item) => item.price === product.price)) {
-        finishedCart.push({ price: product.price, quantity: finalQty });
-      }
-    });
-    return finishedCart;
-  };
-
-  const checkoutOptions = {
-    lineItems: stripeItems(),
-    mode: 'payment',
-    successUrl: `${window.location.origin}/success`,
-    cancelUrl: `${window.location.origin}/cancel`,
-  };
-
-  const redirectToCheckout = async () => {
-    setIsLoading(true);
-
-    const stripe = await getStripe();
-    const { error } = await stripe.redirectToCheckout(checkoutOptions);
-
-    if (error) setStripeError(error.message);
-    setIsLoading(true);
+    navigate('/checkout');
   };
 
   if (cart?.length) {
     return (
       <div className='bg-white'>
-        <ErrorAlert error={stripeError} />
         <div className='max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-0'>
           <h1 className='text-3xl font-extrabold text-center tracking-tight text-gray-900 sm:text-4xl'>
             Shopping Cart
@@ -174,8 +131,6 @@ const CartPage = () => {
 
               <div className='mt-10'>
                 <button
-                  onClick={redirectToCheckout}
-                  disabled={isLoading}
                   type='submit'
                   className='checkout-button w-full bg-amber-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-amber-500'
                 >
