@@ -63,8 +63,6 @@ const DeckProductPage = () => {
     }
   }, [formSubmitted, cart]);
 
-  console.log(cart);
-
   useEffect(() => {
     const docRef = doc(db, 'decks', deckId);
     const getDeck = async () => {

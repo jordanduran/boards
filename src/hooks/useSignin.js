@@ -23,7 +23,6 @@ export const useSignin = () => {
     setError(null);
     signInWithEmailAndPassword(auth, email, password)
       .then((response) => {
-        console.log('User successfully signed in!', response.user);
         setSignedInUser(response.user);
         sessionStorage.setItem('user', JSON.stringify(response.user));
         navigate('/');

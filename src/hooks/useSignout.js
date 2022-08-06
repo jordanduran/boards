@@ -11,7 +11,6 @@ export const useSignout = () => {
     signOut(auth)
       .then(() => {
         setSignedInUser(null);
-        console.log('User successfully signed out!');
         sessionStorage.removeItem('user');
         navigate('/');
       })
