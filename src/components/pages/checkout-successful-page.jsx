@@ -54,7 +54,15 @@ const CheckoutSuccessfulPage = () => {
 
             <dl className='mt-12 text-sm font-medium'>
               <dt className='text-gray-900'>Tracking number</dt>
-              <dd className='text-amber-600 mt-2'>{shuffledNumbers}</dd>
+              <a
+                href='https://www.ups.com/track?loc=en_US&requester=ST/'
+                target='_blank'
+                rel='noreferrer'
+              >
+                <dd className='text-amber-600 mt-2 hover:text-amber-500'>
+                  {shuffledNumbers}
+                </dd>
+              </a>
             </dl>
           </div>
 
