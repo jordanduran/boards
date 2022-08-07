@@ -5,8 +5,16 @@ const CheckoutSuccessfulPage = () => {
   const cart = useStoreState((state) => state.cart);
   const productsPurchased = useStoreState((state) => state.productsPurchased);
   const orderShippingInfo = useStoreState((state) => state.orderShippingInfo);
+  const orderBillingInfo = useStoreState((state) => state.orderBillingInfo);
 
-  console.log(orderShippingInfo);
+  const purchasedProductsTotal = productsPurchased.reduce(
+    (total, product) =>
+      Number(product.displayPrice) * Number(product.quantity) + total,
+    0
+  );
+
+  const shipping =
+    purchasedProductsTotal > 100 ? Number('0.0') : Number('18.00');
 
   const addProductsPurchased = useStoreActions(
     (state) => state.addProductsPurchased
@@ -112,9 +120,9 @@ const CheckoutSuccessfulPage = () => {
                   <dt className='font-medium text-gray-900'>Billing address</dt>
                   <dd className='mt-2 text-gray-700'>
                     <address className='not-italic'>
-                      <span className='block'>Kristin Watson</span>
-                      <span className='block'>7363 Cynthia Pass</span>
-                      <span className='block'>Toronto, ON N3Y 4H8</span>
+                      <span className='block capitalize'>{`${orderBillingInfo.billingFirstName} ${orderBillingInfo.billingLastName}`}</span>
+                      <span className='block capitalize'>{`${orderBillingInfo.billingAddress} ${orderBillingInfo.billingApt}`}</span>
+                      <span className='block capitalize'>{`${orderBillingInfo.billingCity} ${orderBillingInfo.billingPostalCode}`}</span>
                     </address>
                   </dd>
                 </div>
@@ -147,24 +155,28 @@ const CheckoutSuccessfulPage = () => {
               <dl className='space-y-6 border-t border-gray-200 text-sm pt-10'>
                 <div className='flex justify-between'>
                   <dt className='font-medium text-gray-900'>Subtotal</dt>
-                  <dd className='text-gray-700'>$36.00</dd>
+                  <dd className='text-gray-700'>${purchasedProductsTotal}</dd>
                 </div>
-                <div className='flex justify-between'>
-                  <dt className='flex font-medium text-gray-900'>
-                    Discount
-                    <span className='rounded-full bg-gray-200 text-xs text-gray-600 py-0.5 px-2 ml-2'>
-                      STUDENT50
-                    </span>
-                  </dt>
-                  <dd className='text-gray-700'>-$18.00 (50%)</dd>
-                </div>
+                {purchasedProductsTotal > 100 && (
+                  <div className='flex justify-between'>
+                    <dt className='flex font-medium text-gray-900'>
+                      Discount
+                      <span className='rounded-full bg-gray-200 text-xs text-gray-600 py-0.5 px-2 ml-2'>
+                        FREESHIPPING
+                      </span>
+                    </dt>
+                    <dd className='text-gray-700'>-$18.00</dd>
+                  </div>
+                )}
                 <div className='flex justify-between'>
                   <dt className='font-medium text-gray-900'>Shipping</dt>
-                  <dd className='text-gray-700'>$5.00</dd>
+                  <dd className='text-gray-700'>${shipping}</dd>
                 </div>
                 <div className='flex justify-between'>
                   <dt className='font-medium text-gray-900'>Total</dt>
-                  <dd className='text-gray-900'>$23.00</dd>
+                  <dd className='text-gray-900'>
+                    ${purchasedProductsTotal + shipping}
+                  </dd>
                 </div>
               </dl>
             </div>

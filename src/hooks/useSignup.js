@@ -10,7 +10,7 @@ export const useSignup = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setError(null);
-    }, 5000);
+    }, 3000);
 
     return () => {
       clearTimeout(timer);

@@ -55,7 +55,7 @@ const DeckProductPage = () => {
       const timer = setTimeout(() => {
         setFormSubmitted(false);
         setShowAlert(false);
-      }, 5000);
+      }, 3000);
 
       return () => {
         clearTimeout(timer);

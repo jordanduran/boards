@@ -11,6 +11,10 @@ const store = createStore({
     'orderShippingInfo' in sessionStorage
       ? JSON.parse(sessionStorage.getItem('orderShippingInfo'))
       : [],
+  orderBillingInfo:
+    'orderBillingInfo' in sessionStorage
+      ? JSON.parse(sessionStorage.getItem('orderBillingInfo'))
+      : [],
   productsPurchased: [],
   cartCount: computed((state) =>
     state.cart.reduce((accum, product) => accum + product.quantity, 0)
@@ -48,6 +52,12 @@ const store = createStore({
     sessionStorage.removeItem('orderShippingInfo');
     sessionStorage.setItem('orderShippingInfo', JSON.stringify(payload));
     state.orderShippingInfo = payload;
+  }),
+
+  addOrderBillingInfo: action((state, payload) => {
+    sessionStorage.removeItem('orderBillingInfo');
+    sessionStorage.setItem('orderBillingInfo', JSON.stringify(payload));
+    state.orderBillingInfo = payload;
   }),
 
   addProductsPurchased: action((state, payload) => {

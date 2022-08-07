@@ -17,7 +17,7 @@ const CartPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate('/checkout');
+    navigate('/checkout/shipping');
   };
 
   if (cart?.length) {

@@ -19,7 +19,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-const CheckoutPage = () => {
+const CheckoutShippingPage = () => {
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -35,6 +35,15 @@ const CheckoutPage = () => {
     deliveryMethods[0]
   );
   const [billingSameAsShipping, setBillingSameAsShipping] = useState(true);
+  const [billingFirstName, setBillingFirstName] = useState('');
+  const [billingLastName, setBillingLastName] = useState('');
+  const [billingCompany, setBillingCompany] = useState('');
+  const [billingAddress, setBillingAddress] = useState('');
+  const [billingApt, setBillingApt] = useState('');
+  const [billingCity, setBillingCity] = useState('');
+  const [billingCountry, setBillingCountry] = useState('United States');
+  const [billingState, setBillingState] = useState('');
+  const [billingPostalCode, setBillingPostalCode] = useState('');
   const [formError, setFormError] = useState(null);
   const [stripeError, setStripeError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -45,6 +54,11 @@ const CheckoutPage = () => {
     (state) => state.addOrderShippingInfo
   );
 
+  const addOrderBillingInfo = useStoreActions(
+    (state) => state.addOrderBillingInfo
+  );
+
+  // eslint-disable-next-line no-unused-vars
   const shippingInformation = useMemo(() => {
     const shippingInfo = {
       email,
@@ -60,7 +74,18 @@ const CheckoutPage = () => {
       phone,
       selectedDeliveryMethod,
     };
+    const billingInfo = {
+      billingFirstName,
+      billingLastName,
+      billingAddress,
+      billingApt,
+      billingCity,
+      billingCountry,
+      billingState,
+      billingPostalCode,
+    };
     addOrderShippingInfo(shippingInfo);
+    addOrderBillingInfo(billingInfo);
     return shippingInfo;
   }, [
     email,
@@ -75,7 +100,16 @@ const CheckoutPage = () => {
     postalCode,
     phone,
     selectedDeliveryMethod,
+    billingFirstName,
+    billingLastName,
+    billingAddress,
+    billingApt,
+    billingCity,
+    billingCountry,
+    billingState,
+    billingPostalCode,
     addOrderShippingInfo,
+    addOrderBillingInfo,
   ]);
 
   let stripePromise;
@@ -120,8 +154,32 @@ const CheckoutPage = () => {
       postalCode === '' ||
       phone === ''
     ) {
-      setFormError('Please fill out all  fields.');
+      setFormError('Please fill out all required fields.');
       return;
+    } else if (!billingSameAsShipping) {
+      if (
+        email === '' ||
+        firstName === '' ||
+        lastName === '' ||
+        address === '' ||
+        apt === '' ||
+        city === '' ||
+        country === '' ||
+        state === '' ||
+        postalCode === '' ||
+        phone === '' ||
+        billingFirstName === '' ||
+        billingLastName === '' ||
+        billingAddress === '' ||
+        billingApt === '' ||
+        billingCity === '' ||
+        billingCountry === '' ||
+        billingState === '' ||
+        billingPostalCode === ''
+      ) {
+        setFormError('Please fill out all required fields.');
+        return;
+      }
     }
     setIsLoading(true);
     const stripe = await getStripe();
@@ -132,37 +190,21 @@ const CheckoutPage = () => {
     setFormError(null);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // const shippingInfo = {
-    //   email,
-    //   firstName,
-    //   lastName,
-    //   company,
-    //   address,
-    //   apt,
-    //   city,
-    //   country,
-    //   state,
-    //   postalCode,
-    //   phone,
-    //   selectedDeliveryMethod,
-    // };
-    // sessionStorage.setItem('orderShippingInfo', JSON.stringify(shippingInfo));
-    // addOrderShippingInfo(shippingInfo);
-  };
+  const handleSubmit = (e) => e.preventDefault();
 
   useEffect(() => {
     if (formError !== null) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      const timer = setTimeout(() => [setFormError(null)], 3000);
+      return () => {
+        clearTimeout(timer);
+      };
     }
   }, [formError]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
-
-  console.log(formError);
 
   if (cart?.length) {
     return (
@@ -183,7 +225,7 @@ const CheckoutPage = () => {
 
                 <div className='mt-4'>
                   <label
-                    htmlFor='email-address'
+                    htmlFor='email'
                     className='block text-sm font-medium text-gray-700'
                   >
                     Email address
@@ -191,8 +233,8 @@ const CheckoutPage = () => {
                   <div className='mt-1'>
                     <input
                       type='email'
-                      id='email-address'
-                      name='email-address'
+                      id='email'
+                      name='email'
                       autoComplete='email'
                       className={`block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 sm:text-sm ${
                         formError !== null &&
@@ -214,7 +256,7 @@ const CheckoutPage = () => {
                 <div className='mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4'>
                   <div>
                     <label
-                      htmlFor='first-name'
+                      htmlFor='firstName'
                       className='block text-sm font-medium text-gray-700'
                     >
                       First name
@@ -238,7 +280,7 @@ const CheckoutPage = () => {
 
                   <div>
                     <label
-                      htmlFor='last-name'
+                      htmlFor='lastName'
                       className='block text-sm font-medium text-gray-700'
                     >
                       Last name
@@ -265,7 +307,7 @@ const CheckoutPage = () => {
                       htmlFor='company'
                       className='block text-sm font-medium text-gray-700'
                     >
-                      Company
+                      Company (optional)
                     </label>
                     <div className='mt-1'>
                       <input
@@ -291,7 +333,7 @@ const CheckoutPage = () => {
                         type='text'
                         name='address'
                         id='address'
-                        autoComplete='street-address'
+                        autoComplete='address'
                         className={`block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 sm:text-sm ${
                           formError !== null &&
                           address === '' &&
@@ -379,7 +421,7 @@ const CheckoutPage = () => {
 
                   <div>
                     <label
-                      htmlFor='region'
+                      htmlFor='state'
                       className='block text-sm font-medium text-gray-700'
                     >
                       State / Province
@@ -387,8 +429,8 @@ const CheckoutPage = () => {
                     <div className='mt-1'>
                       <input
                         type='text'
-                        name='region'
-                        id='region'
+                        name='state'
+                        id='state'
                         autoComplete='address-level1'
                         className={`block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 sm:text-sm ${
                           formError !== null &&
@@ -403,7 +445,7 @@ const CheckoutPage = () => {
 
                   <div>
                     <label
-                      htmlFor='postal-code'
+                      htmlFor='postalCode'
                       className='block text-sm font-medium text-gray-700'
                     >
                       Postal code
@@ -411,8 +453,8 @@ const CheckoutPage = () => {
                     <div className='mt-1'>
                       <input
                         type='text'
-                        name='postal-code'
-                        id='postal-code'
+                        name='postalCode'
+                        id='postalCode'
                         autoComplete='postal-code'
                         className={`block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 sm:text-sm ${
                           formError !== null &&
@@ -450,7 +492,7 @@ const CheckoutPage = () => {
                   </div>
                 </div>
                 <fieldset className='space-y-5'>
-                  <legend className='sr-only'>Notifications</legend>
+                  <legend className='sr-only'>Billing same as shipping</legend>
                   <div className='relative flex items-start'>
                     <div className='flex items-center h-5'>
                       <input
@@ -488,7 +530,7 @@ const CheckoutPage = () => {
                   <div className='mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4'>
                     <div>
                       <label
-                        htmlFor='first-name'
+                        htmlFor='billingFirstName'
                         className='block text-sm font-medium text-gray-700'
                       >
                         First name
@@ -496,23 +538,24 @@ const CheckoutPage = () => {
                       <div className='mt-1'>
                         <input
                           type='text'
-                          id='firstName'
-                          name='firstName'
+                          id='billingFirstName'
+                          name='billingFirstName'
                           autoComplete='given-name'
                           className={`block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 sm:text-sm ${
                             formError !== null &&
-                            email === '' &&
+                            !billingSameAsShipping &&
+                            billingFirstName === '' &&
                             'border border-red-500'
                           }`}
-                          value={firstName}
-                          onChange={(e) => setFirstName(e.target.value)}
+                          value={billingFirstName}
+                          onChange={(e) => setBillingFirstName(e.target.value)}
                         />
                       </div>
                     </div>
 
                     <div>
                       <label
-                        htmlFor='last-name'
+                        htmlFor='billingLastName'
                         className='block text-sm font-medium text-gray-700'
                       >
                         Last name
@@ -520,42 +563,43 @@ const CheckoutPage = () => {
                       <div className='mt-1'>
                         <input
                           type='text'
-                          id='lastName'
-                          name='lastName'
+                          id='billingLastName'
+                          name='billingLastName'
                           autoComplete='family-name'
                           className={`block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 sm:text-sm ${
                             formError !== null &&
-                            email === '' &&
+                            !billingSameAsShipping &&
+                            billingLastName === '' &&
                             'border border-red-500'
                           }`}
-                          value={lastName}
-                          onChange={(e) => setLastName(e.target.value)}
+                          value={billingLastName}
+                          onChange={(e) => setBillingLastName(e.target.value)}
                         />
                       </div>
                     </div>
 
                     <div className='sm:col-span-2'>
                       <label
-                        htmlFor='company'
+                        htmlFor='billingCompany'
                         className='block text-sm font-medium text-gray-700'
                       >
-                        Company
+                        Company (optional)
                       </label>
                       <div className='mt-1'>
                         <input
                           type='text'
-                          name='company'
-                          id='company'
+                          name='billingCompany'
+                          id='billingCompany'
                           className={`block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 sm:text-sm`}
-                          value={company}
-                          onChange={(e) => setCompany(e.target.value)}
+                          value={billingCompany}
+                          onChange={(e) => setBillingCompany(e.target.value)}
                         />
                       </div>
                     </div>
 
                     <div className='sm:col-span-2'>
                       <label
-                        htmlFor='address'
+                        htmlFor='billingAddress'
                         className='block text-sm font-medium text-gray-700'
                       >
                         Address
@@ -563,23 +607,24 @@ const CheckoutPage = () => {
                       <div className='mt-1'>
                         <input
                           type='text'
-                          name='address'
-                          id='address'
+                          name='billingAddress'
+                          id='billingAddress'
                           autoComplete='street-address'
                           className={`block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 sm:text-sm ${
                             formError !== null &&
-                            email === '' &&
+                            !billingSameAsShipping &&
+                            billingAddress === '' &&
                             'border border-red-500'
                           }`}
-                          value={address}
-                          onChange={(e) => setAddress(e.target.value)}
+                          value={billingAddress}
+                          onChange={(e) => setBillingAddress(e.target.value)}
                         />
                       </div>
                     </div>
 
                     <div className='sm:col-span-2'>
                       <label
-                        htmlFor='apartment'
+                        htmlFor='billingApartment'
                         className='block text-sm font-medium text-gray-700'
                       >
                         Apartment, suite, etc.
@@ -587,22 +632,23 @@ const CheckoutPage = () => {
                       <div className='mt-1'>
                         <input
                           type='text'
-                          name='apartment'
-                          id='apartment'
+                          name='billingApt'
+                          id='billingApt'
                           className={`block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 sm:text-sm ${
                             formError !== null &&
-                            email === '' &&
+                            !billingSameAsShipping &&
+                            billingApt === '' &&
                             'border border-red-500'
                           }`}
-                          value={apt}
-                          onChange={(e) => setApt(e.target.value)}
+                          value={billingApt}
+                          onChange={(e) => setBillingApt(e.target.value)}
                         />
                       </div>
                     </div>
 
                     <div>
                       <label
-                        htmlFor='city'
+                        htmlFor='billingCity'
                         className='block text-sm font-medium text-gray-700'
                       >
                         City
@@ -610,39 +656,41 @@ const CheckoutPage = () => {
                       <div className='mt-1'>
                         <input
                           type='text'
-                          name='city'
-                          id='city'
+                          name='billingCity'
+                          id='billingCity'
                           autoComplete='address-level2'
                           className={`block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 sm:text-sm ${
                             formError !== null &&
-                            email === '' &&
+                            !billingSameAsShipping &&
+                            billingCity === '' &&
                             'border border-red-500'
                           }`}
-                          value={city}
-                          onChange={(e) => setCity(e.target.value)}
+                          value={billingCity}
+                          onChange={(e) => setBillingCity(e.target.value)}
                         />
                       </div>
                     </div>
 
                     <div>
                       <label
-                        htmlFor='country'
+                        htmlFor='billingCountry'
                         className='block text-sm font-medium text-gray-700'
                       >
                         Country
                       </label>
                       <div className='mt-1'>
                         <select
-                          id='country'
-                          name='country'
+                          id='billingCountry'
+                          name='billingCountry'
                           autoComplete='country-name'
                           className={`block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 sm:text-sm ${
                             formError !== null &&
-                            email === '' &&
+                            !billingSameAsShipping &&
+                            billingCountry === '' &&
                             'border border-red-500'
                           }`}
-                          value={country}
-                          onChange={(e) => setCountry(e.target.value)}
+                          value={billingCountry}
+                          onChange={(e) => setBillingCountry(e.target.value)}
                         >
                           <option value='United States'>United States</option>
                           <option value='Canada'>Canada</option>
@@ -653,7 +701,7 @@ const CheckoutPage = () => {
 
                     <div>
                       <label
-                        htmlFor='region'
+                        htmlFor='billingState'
                         className='block text-sm font-medium text-gray-700'
                       >
                         State / Province
@@ -661,23 +709,23 @@ const CheckoutPage = () => {
                       <div className='mt-1'>
                         <input
                           type='text'
-                          name='region'
-                          id='region'
+                          name='billingState'
+                          id='billingState'
                           autoComplete='address-level1'
                           className={`block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 sm:text-sm ${
                             formError !== null &&
-                            email === '' &&
+                            billingState === '' &&
                             'border border-red-500'
                           }`}
-                          value={state}
-                          onChange={(e) => setState(e.target.value)}
+                          value={billingState}
+                          onChange={(e) => setBillingState(e.target.value)}
                         />
                       </div>
                     </div>
 
                     <div>
                       <label
-                        htmlFor='postal-code'
+                        htmlFor='billingPostalCode'
                         className='block text-sm font-medium text-gray-700'
                       >
                         Postal code
@@ -685,40 +733,16 @@ const CheckoutPage = () => {
                       <div className='mt-1'>
                         <input
                           type='text'
-                          name='postal-code'
-                          id='postal-code'
+                          name='billingPostalCode'
+                          id='billingPostalCode'
                           autoComplete='postal-code'
                           className={`block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 sm:text-sm ${
                             formError !== null &&
-                            email === '' &&
+                            billingPostalCode === '' &&
                             'border border-red-500'
                           }`}
-                          value={postalCode}
-                          onChange={(e) => setPostalCode(e.target.value)}
-                        />
-                      </div>
-                    </div>
-
-                    <div className='sm:col-span-2'>
-                      <label
-                        htmlFor='phone'
-                        className='block text-sm font-medium text-gray-700'
-                      >
-                        Phone
-                      </label>
-                      <div className='mt-1'>
-                        <input
-                          type='text'
-                          name='phone'
-                          id='phone'
-                          autoComplete='tel'
-                          className={`block w-full border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 sm:text-sm ${
-                            formError !== null &&
-                            email === '' &&
-                            'border border-red-500'
-                          }`}
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
+                          value={billingPostalCode}
+                          onChange={(e) => setBillingPostalCode(e.target.value)}
                         />
                       </div>
                     </div>
@@ -813,4 +837,4 @@ const CheckoutPage = () => {
   }
 };
 
-export default CheckoutPage;
+export default CheckoutShippingPage;
