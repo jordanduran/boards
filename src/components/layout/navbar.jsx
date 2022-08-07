@@ -8,7 +8,6 @@ import {
   SearchIcon,
   ShoppingCartIcon,
   UserIcon,
-  LogoutIcon,
   XIcon,
 } from '@heroicons/react/outline';
 
@@ -322,20 +321,6 @@ const Navbar = () => {
 
                         {user && (
                           <>
-                            <div className='flex'>
-                              <button
-                                title='Sign out'
-                                className='-m-2 p-2 text-gray-400 hover:text-gray-500'
-                                onClick={signout}
-                              >
-                                <span className='sr-only'>Sign out</span>
-                                <LogoutIcon
-                                  className='w-6 h-6'
-                                  aria-hidden='true'
-                                />
-                              </button>
-                            </div>
-
                             <div className='flex'>
                               <Link
                                 to='#'

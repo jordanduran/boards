@@ -11,6 +11,7 @@ import DeckProductPage from './components/pages/deck-product-page';
 import TrucksPage from './components/pages/trucks-page';
 import TruckProductPage from './components/pages/truck-product-page';
 import WheelsPage from './components/pages/wheels-page';
+import WheelProductPage from './components/pages/wheel-product-page';
 import CompleteSkateboardsPage from './components/pages/complete-skateboards-page';
 import NewArrivalsPage from './components/pages/new-arrivals-page';
 import WallArtPage from './components/pages/wall-art-page';
@@ -34,6 +35,7 @@ const App = () => {
         <Route path='/trucks' element={<TrucksPage />} />
         <Route path='/trucks/:id/:name' element={<TruckProductPage />} />
         <Route path='/wheels' element={<WheelsPage />} />
+        <Route path='/wheels/:id/:name' element={<WheelProductPage />} />
         <Route path='/new-arrivals' element={<NewArrivalsPage />} />
         <Route path='/wall-art' element={<WallArtPage />} />
         <Route path='/success' element={<CheckoutSuccessfulPage />} />
