@@ -10,11 +10,11 @@ const store = createStore({
   orderShippingInfo:
     'orderShippingInfo' in sessionStorage
       ? JSON.parse(sessionStorage.getItem('orderShippingInfo'))
-      : [],
+      : null,
   orderBillingInfo:
     'orderBillingInfo' in sessionStorage
       ? JSON.parse(sessionStorage.getItem('orderBillingInfo'))
-      : [],
+      : null,
   productsPurchased: [],
   cartCount: computed((state) =>
     state.cart.reduce((accum, product) => accum + product.quantity, 0)

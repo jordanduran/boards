@@ -14,7 +14,9 @@ const CheckoutSuccessfulPage = () => {
   );
 
   const shipping =
-    purchasedProductsTotal > 100 ? Number('0.0') : Number('18.00');
+    purchasedProductsTotal > 100
+      ? Number('0.0')
+      : Number(orderShippingInfo?.selectedDeliveryMethod?.price.slice(0, 1));
 
   const addProductsPurchased = useStoreActions(
     (state) => state.addProductsPurchased
@@ -90,7 +92,7 @@ const CheckoutSuccessfulPage = () => {
                       <div className='pl-4 flex sm:pl-6'>
                         <dt className='font-medium text-gray-900'>Price</dt>
                         <dd className='ml-2 text-gray-700'>
-                          ${product.displayPrice}
+                          ${product.displayPrice * product.quantity}
                         </dd>
                       </div>
                     </dl>
@@ -112,7 +114,7 @@ const CheckoutSuccessfulPage = () => {
                     <address className='not-italic'>
                       <span className='block capitalize'>{`${orderShippingInfo.firstName} ${orderShippingInfo.lastName}`}</span>
                       <span className='block capitalize'>{`${orderShippingInfo.address} ${orderShippingInfo.apt}`}</span>
-                      <span className='block capitalize'>{`${orderShippingInfo.city} ${orderShippingInfo.postalCode}`}</span>
+                      <span className='block capitalize'>{`${orderShippingInfo.city}, ${orderShippingInfo.state} ${orderShippingInfo.postalCode}`}</span>
                     </address>
                   </dd>
                 </div>
@@ -120,9 +122,21 @@ const CheckoutSuccessfulPage = () => {
                   <dt className='font-medium text-gray-900'>Billing address</dt>
                   <dd className='mt-2 text-gray-700'>
                     <address className='not-italic'>
-                      <span className='block capitalize'>{`${orderBillingInfo.billingFirstName} ${orderBillingInfo.billingLastName}`}</span>
-                      <span className='block capitalize'>{`${orderBillingInfo.billingAddress} ${orderBillingInfo.billingApt}`}</span>
-                      <span className='block capitalize'>{`${orderBillingInfo.billingCity} ${orderBillingInfo.billingPostalCode}`}</span>
+                      <span className='block capitalize'>
+                        {orderBillingInfo.billingAddress !== ''
+                          ? `${orderBillingInfo.billingFirstName} ${orderBillingInfo.billingLastName}`
+                          : `${orderShippingInfo.firstName} ${orderShippingInfo.lastName}`}
+                      </span>
+                      <span className='block capitalize'>
+                        {orderBillingInfo.billingAddress !== ''
+                          ? `${orderBillingInfo.billingAddress} ${orderBillingInfo.billingApt}`
+                          : `${orderShippingInfo.address} ${orderShippingInfo.apt}`}
+                      </span>
+                      <span className='block capitalize'>
+                        {orderBillingInfo.billingAddress !== ''
+                          ? `${orderBillingInfo.billingCity}, ${orderBillingInfo.billingState} ${orderBillingInfo.billingPostalCode}`
+                          : `${orderShippingInfo.city}, ${orderShippingInfo.state} ${orderShippingInfo.postalCode}`}
+                      </span>
                     </address>
                   </dd>
                 </div>
@@ -133,19 +147,20 @@ const CheckoutSuccessfulPage = () => {
                 <div>
                   <dt className='font-medium text-gray-900'>Payment method</dt>
                   <dd className='mt-2 text-gray-700'>
-                    <p>Apple Pay</p>
-                    <p>Mastercard</p>
-                    <p>
+                    <p>Stripe</p>
+                    <p>Debit/Credit</p>
+                    {/* <p>
                       <span aria-hidden='true'>•••• </span>
                       <span className='sr-only'>Ending in </span>1545
-                    </p>
+                    </p> */}
                   </dd>
                 </div>
                 <div>
                   <dt className='font-medium text-gray-900'>Shipping method</dt>
                   <dd className='mt-2 text-gray-700'>
-                    <p>DHL</p>
-                    <p>Takes up to 3 working days</p>
+                    <p>UPS</p>
+                    <p>{orderShippingInfo.selectedDeliveryMethod.title}</p>
+                    <p>{orderShippingInfo.selectedDeliveryMethod.turnaround}</p>
                   </dd>
                 </div>
               </dl>
@@ -165,7 +180,9 @@ const CheckoutSuccessfulPage = () => {
                         FREESHIPPING
                       </span>
                     </dt>
-                    <dd className='text-gray-700'>-$18.00</dd>
+                    <dd className='text-gray-700'>
+                      -{orderShippingInfo.selectedDeliveryMethod.price}
+                    </dd>
                   </div>
                 )}
                 <div className='flex justify-between'>

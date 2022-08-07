@@ -36,7 +36,7 @@ const TrucksPage = () => {
                     {truck.name}
                   </h3>
                   <p className='mt-1 text-lg font-medium text-gray-900 text-center'>
-                    ${truck.price}
+                    ${truck.displayPrice}
                   </p>
                 </Link>
               ))}

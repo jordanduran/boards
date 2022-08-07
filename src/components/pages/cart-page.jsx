@@ -55,7 +55,7 @@ const CartPage = () => {
                           </a>
                         </h4>
                         <p className='ml-4 text-sm font-medium text-gray-900'>
-                          ${product.displayPrice}
+                          ${product.displayPrice * product.quantity}
                         </p>
                       </div>
                       <div className='flex justify-between'>
