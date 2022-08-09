@@ -13,6 +13,7 @@ import TruckProductPage from './components/pages/truck-product-page';
 import WheelsPage from './components/pages/wheels-page';
 import WheelProductPage from './components/pages/wheel-product-page';
 import CompleteSkateboardsPage from './components/pages/complete-skateboards-page';
+import CompleteSkateboardProductPage from './components/pages/complete-skateboard-product-page';
 import NewArrivalsPage from './components/pages/new-arrivals-page';
 import WallArtPage from './components/pages/wall-art-page';
 import CheckoutSuccessfulPage from './components/pages/checkout-successful-page';
@@ -43,6 +44,10 @@ const App = () => {
         <Route
           path='/complete-skateboards'
           element={<CompleteSkateboardsPage />}
+        />
+        <Route
+          path='/complete/:id/:name'
+          element={<CompleteSkateboardProductPage />}
         />
       </Routes>
       <Footer />

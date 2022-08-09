@@ -40,7 +40,7 @@ const CartPage = () => {
                     <img
                       src={product.imageSrc}
                       alt={product.name}
-                      className='w-24 h-24 rounded-md object-center object-cover sm:w-32 sm:h-32'
+                      className='w-24 h-30 rounded-md object-center object-cover sm:h-32'
                     />
                   </div>
                   <div className='ml-4 flex-1 flex flex-col sm:ml-6'>
