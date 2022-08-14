@@ -22,6 +22,7 @@ const CompleteSkateboardProductPage = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [selectedSize, setSelectedSize] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [whatSizeClicked, setWhatSizeClicked] = useState(false);
 
   const { id: completeSkateboardId } = useParams();
 
@@ -246,17 +247,38 @@ const CompleteSkateboardProductPage = () => {
                   </div>
                 </div>
                 <div className='mt-4'>
-                  <Link
-                    to='#'
-                    className='group inline-flex text-sm text-gray-500 hover:text-gray-700'
+                  <div
+                    className='group inline-flex text-sm text-gray-500 hover:text-gray-700 cursor-pointer'
+                    onClick={() => setWhatSizeClicked(!whatSizeClicked)}
                   >
                     <span>What size should I buy?</span>
                     <QuestionMarkCircleIcon
                       className='flex-shrink-0 ml-2 h-5 w-5 text-gray-400 group-hover:text-gray-500'
                       aria-hidden='true'
                     />
-                  </Link>
+                  </div>
                 </div>
+                {whatSizeClicked && (
+                  <div className='bg-amber-50 overflow-hidden shadow rounded-lg mt-4'>
+                    <div className='px-4 pt-5 sm:px-6'>
+                      <h2 className='font-medium border-b pb-5 border-black '>
+                        Sizing is mostly based on feet. If it's comfortable
+                        under your feet when riding, it's a good size for you.
+                      </h2>
+                    </div>
+                    <div className='bg-amber-50 px-4 py-5 sm:p-6'>
+                      <p>
+                        When choosing a deck size, don't just think about the
+                        rider's size, but also the type of riding. As a general
+                        rule, wider decks are good for vert riding (ramps,
+                        pools) and cruising because they're more stable. They're
+                        also good for bigger riders. Narrower decks are good for
+                        street tricks like kickflips because they're more
+                        responsive. They're also best for smaller riders.
+                      </p>
+                    </div>
+                  </div>
+                )}
                 <div className='mt-10'>
                   <button
                     type='submit'

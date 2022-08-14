@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useStoreState, useStoreActions } from 'easy-peasy';
 import { Link, useParams } from 'react-router-dom';
-import { CheckIcon, QuestionMarkCircleIcon } from '@heroicons/react/solid';
+import { CheckIcon } from '@heroicons/react/solid';
 import { RadioGroup } from '@headlessui/react';
 import { db } from '../../firebase/config';
 import { doc, getDoc } from 'firebase/firestore';
@@ -242,18 +242,6 @@ const WheelProductPage = () => {
                       <option value='10'>10</option>
                     </select>
                   </div>
-                </div>
-                <div className='mt-4'>
-                  <Link
-                    to='#'
-                    className='group inline-flex text-sm text-gray-500 hover:text-gray-700'
-                  >
-                    <span>What size should I buy?</span>
-                    <QuestionMarkCircleIcon
-                      className='flex-shrink-0 ml-2 h-5 w-5 text-gray-400 group-hover:text-gray-500'
-                      aria-hidden='true'
-                    />
-                  </Link>
                 </div>
                 <div className='mt-10'>
                   <button
