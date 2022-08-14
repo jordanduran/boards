@@ -218,7 +218,7 @@ const NewArrivalProductPage = () => {
                   </RadioGroup>
                   {/* Qty selector */}
 
-                  <div className='mb-8 md:mb-0'>
+                  <div className='mt-8 md:mt-0 mb-8 md:mb-0'>
                     <label
                       htmlFor='location'
                       className='block text-sm font-medium text-gray-700'
