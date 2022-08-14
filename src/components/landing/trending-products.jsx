@@ -6,7 +6,7 @@ const trendingProducts = [
     name: 'Cupid Deck',
     color: 'Gold / Pink / White / Green',
     price: '$50',
-    href: '#',
+    href: '/decks/ZFPJnBM4HPdpHIfvR1Hh/cupid',
     imageSrc: 'https://i.ibb.co/TcgX5nB/RODRIGUEZ-CUPID-1344x1344.png',
     imageAlt: 'Skateboard with lips',
     availableColors: [
@@ -20,7 +20,7 @@ const trendingProducts = [
     name: 'Fluorescent Deck',
     color: 'Purple / Orange / Green / Blue',
     price: '$50',
-    href: '#',
+    href: '/decks/sHAcOrlG4PJb7dV9CSgk/fluorescent',
     imageSrc: 'https://i.ibb.co/CtJMzW1/SILVAS-DECK-GREY-1408x1408.png',
     imageAlt: 'Skateboard with face on the design',
     availableColors: [
@@ -34,7 +34,7 @@ const trendingProducts = [
     name: 'Mystic Deck',
     color: 'Blue / Green / Orange / Yellow',
     price: '$50',
-    href: '#',
+    href: '/decks/Lgq0ffLyTW1uUB6aUt3q/mystic',
     imageSrc: 'https://i.ibb.co/MP14LTV/HAMILTON-DECK-1408x1408.png',
     imageAlt: 'Skateboard with lips',
     availableColors: [
@@ -48,7 +48,7 @@ const trendingProducts = [
     name: 'Home Deck',
     color: 'Sky Blue / White / Yellow / Green',
     price: '$50',
-    href: '#',
+    href: '/decks/hhWcrnCff2YOrdKzPPFD/home',
     imageSrc: 'https://i.ibb.co/HPKtNvJ/PS22-W0043-HOMETEAM-1408x1408.png',
     imageAlt: 'Skateboard with lips',
     availableColors: [
@@ -80,7 +80,7 @@ const TrendingProducts = () => {
 
         <div className='mt-8 relative'>
           <div className='relative w-full overflow-x-auto'>
-            <ul
+            <div
               role='list'
               className='mx-4 inline-flex space-x-8 sm:mx-6 lg:mx-0 lg:space-x-0 lg:grid lg:grid-cols-4 lg:gap-x-8'
             >
@@ -100,27 +100,27 @@ const TrendingProducts = () => {
                     <div className='mt-6'>
                       <p className='text-sm text-gray-500'>{product.color}</p>
                       <h3 className='mt-1 font-semibold text-gray-900'>
-                        <a href={product.href}>
+                        <Link to={product.href}>
                           <span className='absolute inset-0' />
                           {product.name}
-                        </a>
+                        </Link>
                       </h3>
                       <p className='mt-1 text-gray-900'>{product.price}</p>
                     </div>
                   </div>
                 </li>
               ))}
-            </ul>
+            </div>
           </div>
         </div>
 
         <div className='mt-12 px-4 sm:hidden'>
-          <a
-            href='#'
+          <Link
+            to='/decks'
             className='text-sm font-semibold text-indigo-600 hover:text-indigo-500'
           >
             See everything<span aria-hidden='true'> &rarr;</span>
-          </a>
+          </Link>
         </div>
       </div>
     </section>

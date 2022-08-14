@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const testimonials = [
   {
     id: 1,
@@ -86,12 +88,12 @@ const Testimonials = () => {
               options from our summer small-batch release while they're still in
               stock.
             </p>
-            <a
-              href='#'
+            <Link
+              to='/new-arrivals'
               className='mt-8 inline-block bg-white border border-transparent rounded-md py-3 px-8 text-base font-medium text-gray-900 hover:bg-gray-100'
             >
               Shop New Arrivals
-            </a>
+            </Link>
           </div>
         </div>
       </div>

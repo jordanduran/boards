@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const collections = [
   {
     id: 1,
@@ -5,7 +7,7 @@ const collections = [
     description: `Keith Haring Single Skateboard Art Haring Pop Art`,
     imageSrc: 'https://i.ibb.co/5kWQkCt/il-1588x-N-3971370353-b5xo.png',
     imageAlt: 'Skateboard with heart on design.',
-    href: '#',
+    href: '/wall-art/L1uLDBZ80s9fP6QlL8SD/Heart',
   },
   {
     id: 2,
@@ -13,7 +15,7 @@ const collections = [
     description: 'Andy Warhol Campbells Soup Skateboard Pop Art',
     imageSrc: 'https://i.ibb.co/XLMsYXZ/il-1588x-N-3923888052-k5d1.png',
     imageAlt: `Skateboard with Campbell's soup`,
-    href: '#',
+    href: '/wall-art/sUfQv1jtzbZF7sW2k5le/1990',
   },
   {
     id: 3,
@@ -21,7 +23,7 @@ const collections = [
     description: 'Keith Haring The Blueprint drawings 6 1990 Skateboard Art',
     imageSrc: 'https://i.ibb.co/86Y4b7F/il-1588x-N-3971556963-ldaq.png',
     imageAlt: 'Skateboard with people on design.',
-    href: '#',
+    href: '/wall-art/Af4XVHHbcgdH3oF579Jp/1990',
   },
 ];
 
@@ -48,10 +50,10 @@ const FeaturedArt = () => {
                   />
                 </div>
                 <h3 className='mt-6 text-sm text-gray-500'>
-                  <a href={collection.href}>
+                  <Link to={collection.href}>
                     <span className='absolute inset-0' />
                     {collection.name}
-                  </a>
+                  </Link>
                 </h3>
                 <p className='text-base font-semibold text-gray-900'>
                   {collection.description}
