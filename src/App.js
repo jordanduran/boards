@@ -15,7 +15,9 @@ import WheelProductPage from './components/pages/wheel-product-page';
 import CompleteSkateboardsPage from './components/pages/complete-skateboards-page';
 import CompleteSkateboardProductPage from './components/pages/complete-skateboard-product-page';
 import NewArrivalsPage from './components/pages/new-arrivals-page';
+import NewArrivalProductPage from './components/pages/new-arrival-product-page';
 import WallArtPage from './components/pages/wall-art-page';
+import WallArtProductPage from './components/pages/wall-art-product-page';
 import CheckoutSuccessfulPage from './components/pages/checkout-successful-page';
 import CheckoutCancelPage from './components/pages/checkout-cancel-page';
 import Footer from './components/layout/footer';
@@ -38,7 +40,12 @@ const App = () => {
         <Route path='/wheels' element={<WheelsPage />} />
         <Route path='/wheels/:id/:name' element={<WheelProductPage />} />
         <Route path='/new-arrivals' element={<NewArrivalsPage />} />
+        <Route
+          path='/new-arrivals/:id/:name'
+          element={<NewArrivalProductPage />}
+        />
         <Route path='/wall-art' element={<WallArtPage />} />
+        <Route path='/wall-art/:id/:name' element={<WallArtProductPage />} />
         <Route path='/success' element={<CheckoutSuccessfulPage />} />
         <Route path='/cancel' element={<CheckoutCancelPage />} />
         <Route

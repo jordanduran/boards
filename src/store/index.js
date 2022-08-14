@@ -1,5 +1,7 @@
 import { createStore, action, computed } from 'easy-peasy';
 
+const ADMINS = ['jordan@gmail.com'];
+
 const store = createStore({
   user:
     'user' in sessionStorage
@@ -21,6 +23,8 @@ const store = createStore({
   ),
 
   setSignedInUser: action((state, payload) => {
+    if (ADMINS.includes(payload?.email)) payload.isAdmin = true;
+
     state.user = payload;
   }),
   addToCart: action((state, payload) => {
