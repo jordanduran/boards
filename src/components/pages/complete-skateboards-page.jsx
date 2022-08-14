@@ -27,7 +27,7 @@ const CompleteSkateboardsPage = () => {
                 to={`/complete/${complete.id}/${complete.name.split(' ')[0]}`}
                 className='group'
               >
-                <div className='w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-10'>
+                <div className='w-3/4 aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-10 m-auto'>
                   <img
                     src={complete.imageSrc}
                     alt={complete.name}

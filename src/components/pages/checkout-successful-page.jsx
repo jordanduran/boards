@@ -79,7 +79,7 @@ const CheckoutSuccessfulPage = () => {
                 <img
                   src={product.imageSrc}
                   alt={product.imageAlt}
-                  className='flex-none w-20 h-20 object-center object-cover bg-gray-100 rounded-lg sm:w-40 sm:h-40'
+                  className='flex-none w-24 h-18 object-center object-cover bg-gray-100 rounded-lg sm:w-40 sm:h-52'
                 />
                 <div className='flex-auto flex flex-col'>
                   <div>

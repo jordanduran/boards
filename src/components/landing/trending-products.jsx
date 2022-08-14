@@ -117,7 +117,7 @@ const TrendingProducts = () => {
         <div className='mt-12 px-4 sm:hidden'>
           <Link
             to='/decks'
-            className='text-sm font-semibold text-indigo-600 hover:text-indigo-500'
+            className='text-sm font-semibold text-amber-600 hover:text-amber-500'
           >
             See everything<span aria-hidden='true'> &rarr;</span>
           </Link>
