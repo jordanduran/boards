@@ -16,11 +16,12 @@ const CheckoutSuccessfulPage = () => {
   const shipping =
     purchasedProductsTotal > 100
       ? Number('0.0')
-      : Number(orderShippingInfo?.selectedDeliveryMethod?.price.slice(0, 1));
+      : Number(orderShippingInfo?.selectedDeliveryMethod?.price?.substr(1, 5));
 
   const addProductsPurchased = useStoreActions(
     (state) => state.addProductsPurchased
   );
+
   const clearCart = useStoreActions((state) => state.clearCart);
 
   const shuffledNumbers = '52345678910123456789'
