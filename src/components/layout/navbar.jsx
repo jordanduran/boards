@@ -76,6 +76,7 @@ const Navbar = () => {
                       <Link
                         to={page.href}
                         className='-m-2 p-2 block font-medium text-gray-900'
+                        onClick={() => setOpen(false)}
                       >
                         {page.name}
                       </Link>
@@ -89,6 +90,7 @@ const Navbar = () => {
                       <Link
                         to='/sign-up'
                         className='-m-2 p-2 block font-medium text-gray-900'
+                        onClick={() => setOpen(false)}
                       >
                         Create an account
                       </Link>
@@ -99,6 +101,7 @@ const Navbar = () => {
                       <Link
                         to='/sign-in'
                         className='-m-2 p-2 block font-medium text-gray-900'
+                        onClick={() => setOpen(false)}
                       >
                         Sign in
                       </Link>
@@ -263,6 +266,7 @@ const Navbar = () => {
                           <Link
                             key={page.name}
                             to={page.href}
+                            onClick={() => setOpen(false)}
                             className='flex items-center text-sm font-medium text-gray-700 hover:text-gray-800'
                           >
                             {page.name}
